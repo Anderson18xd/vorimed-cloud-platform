@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - Vorimed_pgdata:/var/lib/postgresql/data
+    networks:
+      - Vorimed_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  api:
+    image: 102798329073.dkr.ecr.us-east-1.amazonaws.com/vorimed-ecr:latest 
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    networks:
+      - Vorimed_net
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  Vorimed_pgdata:
+networks:
+  Vorimed_net:
+    driver: bridge

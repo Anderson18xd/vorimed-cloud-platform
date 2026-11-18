@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoriMed Cloud Platform | Portal de Triaje</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <h1>VoriMed <span>Cloud Triage</span></h1>
+    </div>
+    <div class="api-status">
+      Estado API EC2: <span id="health-badge" class="badge-checking">Verificando...</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Panel Izquierdo: Registro de Paciente -->
+    <section class="card form-section">
+      <h2>Ingresar Paciente a Espera</h2>
+      <p class="subtitle">Registra el síntoma y nivel de prioridad clínica</p>
+      
+      <form id="triage-form">
+        <div class="form-group">
+          <label for="patient-name">Nombre Completo del Paciente</label>
+          <input type="text" id="patient-name" placeholder="Ej. Ana Gómez" required />
+        </div>
+
+        <div class="form-group">
+          <label for="symptom">Síntoma Principal / Cuadro Clínico</label>
+          <textarea id="symptom" rows="3" placeholder="Ej. Dolor lumbar agudo e irradiación..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="urgency">Nivel de Urgencia (Triaje)</label>
+          <select id="urgency" required>
+            <option value="LOW">LOW - Baja Prioridad</option>
+            <option value="MEDIUM" selected>MEDIUM - Urgencia Moderada</option>
+            <option value="HIGH">HIGH - Alta Prioridad</option>
+            <option value="CRITICAL">CRITICAL - Atención Inmediata</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Registrar en Cola</button>
+      </form>
+    </section>
+
+    <!-- Panel Derecho: Tabla de Pacientes en Tiempo Real -->
+    <section class="card table-section">
+      <div class="table-header">
+        <h2>Sala de Espera Activa</h2>
+        <button id="refresh-btn" class="btn-secondary">Actualizar Lista</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Paciente</th>
+              <th>Síntoma</th>
+              <th>Urgencia</th>
+              <th>Acción Clínica</th>
+            </tr>
+          </thead>
+          <tbody id="patients-tbody">
+            <!-- JS inyectará las filas aquí -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
